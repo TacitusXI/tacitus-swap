@@ -52,3 +52,28 @@ Translations for our applications are done through [crowdin](https://crowdin.com
 | `apps/`     | The home for each standalone application.                                      |
 | `config/`   | Shared infrastructure packages and configurations.                             |
 | `packages/` | Shared code packages covering UI, shared functionality, and shared utilities.  |
+
+## IPFS Deployment Guide
+
+To properly deploy the application to IPFS:
+
+1. Run the build-for-ipfs.sh script to create the optimized build:
+   ```
+   ./build-for-ipfs.sh
+   ```
+
+2. Once the build completes, you'll have a directory called `ipfs-build/` in the project root.
+
+3. **IMPORTANT**: Only upload the *contents* of the `ipfs-build/` directory to IPFS, not the entire project.
+
+   This ensures that:
+   - The `index.html` file is at the root level
+   - Only production assets are included (not source code, configuration files, etc.)
+   - The IPFS gateway will display your website correctly instead of a directory listing
+
+4. If you're using Fleek, Pinata, or another IPFS pinning service, point it to the `ipfs-build/` directory.
+
+Common IPFS Deployment Issues:
+- If you see a directory listing when accessing your IPFS hash, you've likely uploaded the entire project instead of just the build output
+- Make sure the upload includes the `index.html` file at the root level
+- The total size should be much smaller than the entire project (typically <100MB vs several GB)
